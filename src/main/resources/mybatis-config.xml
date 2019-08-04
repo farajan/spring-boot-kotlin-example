@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="SLF4J"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,hashCode,toString"/>
+    </settings>
+
+    <typeAliases>
+        <package name="spring.boot.kotlin.example.db.entity"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/CarMapper.xml"/>
+    </mappers>
+
+
+</configuration>
