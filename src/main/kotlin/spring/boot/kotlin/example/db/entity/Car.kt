@@ -1,12 +1,14 @@
 package spring.boot.kotlin.example.db.entity
 
+import javax.validation.constraints.NotNull
+
 data class Car(
 
-        val id_car: Long = -1,
+        val id_car: Long? = null,
 
         val brand: String? = null,
 
-        val mode: String? = null,
+        val model: String? = null,
 
         val color: String? = null,
 

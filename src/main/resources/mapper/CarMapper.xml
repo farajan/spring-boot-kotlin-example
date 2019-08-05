@@ -3,4 +3,35 @@
 
 <mapper namespace="spring.boot.kotlin.example.db.mapper.CarMapper">
 
+    <select id="findAll" resultType="Car">
+        SELECT * FROM car
+    </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultType="Car">
+        SELECT * FROM car WHERE id_car = #{id}
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id_car" keyColumn="id_car">
+        INSERT INTO car (brand, model, color, horsepower, price, mileage, picture) VALUES (#{brand}, #{model}, #{color}, #{horsepower}, #{price}, #{mileage}, #{picture})
+    </insert>
+
+    <update id="update">
+        UPDATE car
+        <set>
+            <if test="brand != null">brand=#{brand},</if>
+            <if test="model != null">model=#{model},</if>
+            <if test="color != null">color=#{color},</if>
+            <if test="horsepower != null">horsepower=#{horsepower},</if>
+            <if test="price != null">price=#{price},</if>
+            <if test="mileage != null">mileage=#{mileage},</if>
+            <if test="picture != null">picture=#{picture}</if>
+        </set>
+        WHERE id_car = #{id_car}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM users_car WHERE id_car = #{id};
+        DELETE FROM car WHERE id_car = #{id};
+    </delete>
+
 </mapper>
