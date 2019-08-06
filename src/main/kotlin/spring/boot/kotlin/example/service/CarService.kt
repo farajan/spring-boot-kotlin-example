@@ -2,10 +2,12 @@ package spring.boot.kotlin.example.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import spring.boot.kotlin.example.db.entity.Car
 import spring.boot.kotlin.example.db.mapper.CarMapper
 
 @Service
+@Transactional
 class CarService(@Autowired private val carMapper: CarMapper) {
 
     fun getAll(): List<Car> = carMapper.findAll()
@@ -19,7 +21,13 @@ class CarService(@Autowired private val carMapper: CarMapper) {
                 || car.horsepower == null
                 || car.price == null
                 || car.mileage == null
-        ) throw IllegalArgumentException("Some not nullable parameter is null.")
+        ) throw IllegalArgumentException("Some of following mandatory parameters is null, see: " +
+                "brand=${car.brand}, " +
+                "model=${car.model}, " +
+                "color=${car.color}, " +
+                "horsepower=${car.horsepower}," +
+                " price=${car.price}, " +
+                "mileage=${car.mileage}")
         carMapper.create(car)
         return car
     }
@@ -34,5 +42,7 @@ class CarService(@Autowired private val carMapper: CarMapper) {
         getById(id)
         carMapper.delete(id)
     }
+
+    fun isFree(id_car: Long): Boolean = carMapper.isFree(id_car)
 
 }

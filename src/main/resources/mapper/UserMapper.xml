@@ -3,4 +3,84 @@
 
 <mapper namespace="spring.boot.kotlin.example.db.mapper.UserMapper">
 
+    <resultMap id="userResult" type="User">
+        <id property="id_user" column="id_user"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="birthday" column="birthday"/>
+        <result property="photo" column="photo"/>
+        <association property="cars" javaType="Car" resultMap="carResult"/>
+    </resultMap>
+
+    <resultMap id="carResult" type="Car">
+        <id property="id_car" column="id_car"/>
+        <result property="brand" column="brand"/>
+        <result property="model" column="model"/>
+        <result property="color" column="color"/>
+        <result property="horsepower" column="horsepower"/>
+        <result property="price" column="price"/>
+        <result property="mileage" column="mileage"/>
+        <result property="picture" column="picture"/>
+    </resultMap>
+
+
+    <select id="findAll" resultMap="userResult">
+        SELECT
+            users.id_user, first_name, last_name, email, password, birthday, photo,
+            car.id_car, brand, model, color, horsepower, price, mileage, picture
+        FROM users
+        LEFT JOIN users_car ON users.id_user = users_car.id_user
+        LEFT JOIN car ON users_car.id_car = car.id_car
+    </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="userResult">
+        SELECT
+            users.id_user, first_name, last_name, email, password, birthday, photo,
+            car.id_car, brand, model, color, horsepower, price, mileage, picture
+        FROM users
+        LEFT JOIN users_car ON users.id_user = users_car.id_user
+        LEFT JOIN car ON users_car.id_car = car.id_car
+        WHERE users.id_user = #{id}
+    </select>
+
+    <insert id="create" parameterType="User" useGeneratedKeys="true" keyProperty="id_user" keyColumn="id_user">
+        INSERT INTO users (first_name, last_name, email, password, birthday, photo) VALUES (#{firstName}, #{lastName}, #{email}, #{password}, #{birthday}, #{photo})
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE users
+        <set>
+            <if test="firstName != null">first_name=#{firstName},</if>
+            <if test="lastName != null">last_name=#{lastName},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="password != null">password=#{password},</if>
+            <if test="birthday != null">birthday=#{birthday},</if>
+            <if test="photo != null">photo=#{photo}</if>
+        </set>
+        WHERE id_user = #{id_user}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM users_car WHERE id_user = #{id};
+        DELETE FROM users WHERE id_user = #{id};
+    </delete>
+
+    <insert id="buyCar" parameterType="java.lang.Long">
+        INSERT INTO users_car (id_user, id_car) VALUES (#{id_user}, #{id_car})
+    </insert>
+
+    <delete id="sellCar" parameterType="java.lang.Long">
+        DELETE FROM users_car WHERE id_user = #{id_user} AND id_car = #{id_car}
+    </delete>
+
+    <select id="alreadyExists" parameterType="java.lang.String" resultType="java.lang.Boolean">
+        SELECT count(*) FROM users WHERE email = #{email}
+    </select>
+
+    <select id="inProperty" parameterType="java.lang.Long" resultType="java.lang.Boolean">
+        SELECT count(*) FROM users_car WHERE id_user = #{id_user} AND id_car = #{id_car}
+    </select>
+
 </mapper>

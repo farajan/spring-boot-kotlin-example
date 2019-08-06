@@ -1,7 +1,5 @@
 package spring.boot.kotlin.example.db.entity
 
-import javax.validation.constraints.NotNull
-
 data class Car(
 
         val id_car: Long? = null,

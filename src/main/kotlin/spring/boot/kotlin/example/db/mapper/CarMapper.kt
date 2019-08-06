@@ -18,4 +18,6 @@ interface CarMapper {
 
     fun delete(id: Long)
 
+    fun isFree(id_car: Long): Boolean
+
 }

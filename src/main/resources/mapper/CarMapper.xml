@@ -11,11 +11,11 @@
         SELECT * FROM car WHERE id_car = #{id}
     </select>
 
-    <insert id="create" useGeneratedKeys="true" keyProperty="id_car" keyColumn="id_car">
+    <insert id="create" parameterType="Car" useGeneratedKeys="true" keyProperty="id_car" keyColumn="id_car">
         INSERT INTO car (brand, model, color, horsepower, price, mileage, picture) VALUES (#{brand}, #{model}, #{color}, #{horsepower}, #{price}, #{mileage}, #{picture})
     </insert>
 
-    <update id="update">
+    <update id="update" parameterType="Car">
         UPDATE car
         <set>
             <if test="brand != null">brand=#{brand},</if>
@@ -29,9 +29,13 @@
         WHERE id_car = #{id_car}
     </update>
 
-    <delete id="delete">
+    <delete id="delete" parameterType="java.lang.Long">
         DELETE FROM users_car WHERE id_car = #{id};
         DELETE FROM car WHERE id_car = #{id};
     </delete>
+
+    <select id="isFree" parameterType="java.lang.Long" resultType="java.lang.Boolean">
+        SELECT count(*) FROM users_car WHERE id_car = #{id_car}
+    </select>
 
 </mapper>
