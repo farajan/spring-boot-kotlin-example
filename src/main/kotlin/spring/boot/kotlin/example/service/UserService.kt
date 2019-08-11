@@ -1,6 +1,10 @@
 package spring.boot.kotlin.example.service
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
+import org.springframework.cache.annotation.Caching
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import spring.boot.kotlin.example.db.entity.User
@@ -9,15 +13,18 @@ import spring.boot.kotlin.example.payload.TransferCar
 
 @Service
 @Transactional
-class UserService(
-        @Autowired private val userMapper: UserMapper,
-        @Autowired private val carService: CarService
-) {
+class UserService(@Autowired private val userMapper: UserMapper) {
 
-    fun getAll(): List<User> = userMapper.findAll()
+    @Cacheable("userCache")
+    fun getAll(): List<User> {
+        print("finding...")
+        return userMapper.findAll()
+    }
 
+    @Cacheable("userCache.byId", key = "#id")
     fun getById(id: Long): User = userMapper.findById(id) ?: throw IllegalArgumentException("User with id_user=$id doesn't exists.")
 
+    @CacheEvict("userCache", allEntries = true)
     fun create(user: User): User {
         if(user.firstName == null
                 || user.lastName == null
@@ -36,22 +43,39 @@ class UserService(
 
     private fun alreadyExists(user: User): Boolean = userMapper.alreadyExists(user.email!!)
 
+    @Caching(evict = [
+        CacheEvict("userCache", allEntries = true),
+        CacheEvict("userCache.byId", key = "#user.id_user")])
     fun update(user: User): User {
         if(user.id_user == null) throw IllegalArgumentException("id_user can't be null.")
         userMapper.update(user)
         return getById(user.id_user)
     }
 
+    @Caching(evict = [
+        CacheEvict("userCache", allEntries = true),
+        CacheEvict("userCache.byId", key="#id"),
+        CacheEvict("carCache.freeCars", allEntries = true)])
     fun delete(id: Long) {
         getById(id)
         userMapper.delete(id)
     }
 
+    @Caching(evict = [
+        CacheEvict("userCache", allEntries = true),
+        CacheEvict("userCache.byId", key = "#id_user"),
+        CacheEvict("carCache.freeCars", allEntries = true)])
     fun buyCar(id_user: Long, id_car: Long) {
-        if(carService.isFree(id_car)) throw IllegalArgumentException("Car with id=$id_car already belongs somebody.")
+        if(isFree(id_car)) throw IllegalArgumentException("Car with id=$id_car already belongs somebody.")
         userMapper.buyCar(id_user, id_car)
     }
 
+    private fun isFree(id_car: Long): Boolean = userMapper.isCarFree(id_car)
+
+    @Caching(evict = [
+        CacheEvict("userCache", allEntries = true),
+        CacheEvict("userCache.byId", key = "#id_user"),
+        CacheEvict("carCache.freeCars", allEntries = true)])
     fun sellCar(id_user: Long, id_car: Long) {
         if(!inProperty(id_user, id_car)) throw IllegalArgumentException("User with id=$id_user don't own car with id=$id_car.")
         userMapper.sellCar(id_user, id_car)

@@ -1,0 +1,66 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="
+            http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+            http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+    <cache alias="userCache">
+        <value-type>spring.boot.kotlin.example.db.entity.User</value-type>
+        <resources>
+            <heap unit="entries">2</heap>
+            <offheap unit="MB">10</offheap>
+        </resources>
+        <expiry>
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="userCache.byId">
+        <value-type>spring.boot.kotlin.example.db.entity.User</value-type>
+        <key-type>java.lang.Long</key-type>
+        <resources>
+            <heap unit="entries">2</heap>
+            <offheap unit="MB">10</offheap>
+        </resources>
+        <expiry>
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="carCache">
+        <value-type>spring.boot.kotlin.example.db.entity.Car</value-type>
+        <resources>
+            <heap unit="entries">2</heap>
+            <offheap unit="MB">10</offheap>
+        </resources>
+        <expiry>
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="carCache.byId">
+        <key-type>java.lang.Long</key-type>
+        <value-type>spring.boot.kotlin.example.db.entity.Car</value-type>
+        <resources>
+            <heap unit="entries">2</heap>
+            <offheap unit="MB">10</offheap>
+        </resources>
+        <expiry>
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="carCache.freeCars">
+        <key-type>java.lang.Long</key-type>
+        <value-type>spring.boot.kotlin.example.db.entity.Car</value-type>
+        <resources>
+            <heap unit="entries">2</heap>
+            <offheap unit="MB">10</offheap>
+        </resources>
+        <expiry>
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+    </cache>
+
+</config>

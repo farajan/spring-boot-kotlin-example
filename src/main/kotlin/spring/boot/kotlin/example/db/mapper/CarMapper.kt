@@ -12,12 +12,12 @@ interface CarMapper {
 
     fun findById(id: Long): Car
 
+    fun findFreeCars(): List<Car>
+
     fun create(car: Car)
 
     fun update(car: Car)
 
     fun delete(id: Long)
-
-    fun isFree(id_car: Long): Boolean
 
 }

@@ -15,6 +15,9 @@ class CarController(@Autowired private val carService: CarService) {
     @GetMapping("/getById/{id}")
     fun getById(@PathVariable id: Long): Car = carService.getById(id)
 
+    @GetMapping("/getFreeCars")
+    fun getFreeCars(): List<Car> = carService.getFreeCars()
+
     @PostMapping("/create")
     fun create(@RequestBody car: Car): Car = carService.create(car)
 

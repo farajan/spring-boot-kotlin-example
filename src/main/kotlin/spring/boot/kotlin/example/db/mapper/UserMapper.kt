@@ -22,6 +22,8 @@ interface UserMapper {
 
     fun buyCar(id_user: Long, id_car: Long)
 
+    fun isCarFree(id_car: Long): Boolean
+
     fun sellCar(id_user: Long, id_car: Long)
 
     fun inProperty(id_user: Long, id_car: Long): Boolean

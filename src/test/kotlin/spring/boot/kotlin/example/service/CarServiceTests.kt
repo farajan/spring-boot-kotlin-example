@@ -55,6 +55,22 @@ class CarServiceTests {
     }
 
     @Test
+    fun getFreeCars_shouldPass() {
+        val car1 = Car(1L, "brand", "model", "color", 0, 1, 2)
+        val car2 = Car(2L, "brand", "model", "color", 0, 1, 2)
+        val car3 = Car(3L, "brand", "model", "color", 0, 1, 2)
+        val cars: List<Car> = listOf(car1, car2, car3)
+
+        `when`(carMapper.findFreeCars()).thenReturn(cars)
+
+        carService.getFreeCars()
+
+        verify(carMapper, Mockito.times(1)).findFreeCars()
+
+        assertThat("Size is not equal to 3", carService.getFreeCars().size, Is.`is`(3))
+    }
+
+    @Test
     fun create_shouldPass() {
         val car = Car(1L, "brand", "model", "color", 0, 1, 2)
         carService.create(car)

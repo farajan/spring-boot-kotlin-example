@@ -11,6 +11,13 @@
         SELECT * FROM car WHERE id_car = #{id}
     </select>
 
+    <select id="findFreeCars" resultType="Car">
+        SELECT * FROM car
+        EXCEPT
+        SELECT car.id_car, car.brand, car.model, car.color, car.horsepower, car.price, car.mileage, car.picture
+        FROM car INNER JOIN users_car ON car.id_car = users_car.id_car
+    </select>
+
     <insert id="create" parameterType="Car" useGeneratedKeys="true" keyProperty="id_car" keyColumn="id_car">
         INSERT INTO car (brand, model, color, horsepower, price, mileage, picture) VALUES (#{brand}, #{model}, #{color}, #{horsepower}, #{price}, #{mileage}, #{picture})
     </insert>
@@ -33,9 +40,5 @@
         DELETE FROM users_car WHERE id_car = #{id};
         DELETE FROM car WHERE id_car = #{id};
     </delete>
-
-    <select id="isFree" parameterType="java.lang.Long" resultType="java.lang.Boolean">
-        SELECT count(*) FROM users_car WHERE id_car = #{id_car}
-    </select>
 
 </mapper>
