@@ -32,7 +32,7 @@ class CarService(@Autowired private val carMapper: CarMapper) {
                 || car.horsepower == null
                 || car.price == null
                 || car.mileage == null
-        ) throw IllegalArgumentException("Some of following mandatory parameters is null, see: " +
+        ) throw IllegalArgumentException("Some of following mandatory parameters are null, see: " +
                 "brand=${car.brand}, " +
                 "model=${car.model}, " +
                 "color=${car.color}, " +

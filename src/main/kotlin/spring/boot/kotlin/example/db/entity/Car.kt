@@ -16,6 +16,8 @@ data class Car(
 
         val mileage: Int? = null,
 
-        val picture: String? = null
+        val picture: String? = null,
+
+        val user: User? = null
 
 )

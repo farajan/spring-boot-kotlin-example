@@ -30,7 +30,7 @@ class UserService(@Autowired private val userMapper: UserMapper) {
                 || user.lastName == null
                 || user.email == null
                 || user.password == null
-        ) throw IllegalArgumentException("Some of following mandatory parameters is null, see: " +
+        ) throw IllegalArgumentException("Some of following mandatory parameters are null, see: " +
                 "firstName=${user.firstName}, " +
                 "lastName=${user.lastName}, " +
                 "email=${user.email}, " +
@@ -41,11 +41,12 @@ class UserService(@Autowired private val userMapper: UserMapper) {
         return user
     }
 
-    private fun alreadyExists(user: User): Boolean = userMapper.alreadyExists(user.email!!)
-
     @Caching(evict = [
         CacheEvict("userCache", allEntries = true),
-        CacheEvict("userCache.byId", key = "#user.id_user")])
+        CacheEvict("userCache.byId", key = "#user.id_user"),
+        CacheEvict("carCache", allEntries = true),
+        CacheEvict("carCache.byId", key = "#car.id_car"),
+        CacheEvict("carCache.freeCars", allEntries = true)])
     fun update(user: User): User {
         if(user.id_user == null) throw IllegalArgumentException("id_user can't be null.")
         userMapper.update(user)
@@ -55,6 +56,8 @@ class UserService(@Autowired private val userMapper: UserMapper) {
     @Caching(evict = [
         CacheEvict("userCache", allEntries = true),
         CacheEvict("userCache.byId", key="#id"),
+        CacheEvict("carCache", allEntries = true),
+        CacheEvict("carCache.byId", key = "#car.id_car"),
         CacheEvict("carCache.freeCars", allEntries = true)])
     fun delete(id: Long) {
         getById(id)
@@ -64,28 +67,34 @@ class UserService(@Autowired private val userMapper: UserMapper) {
     @Caching(evict = [
         CacheEvict("userCache", allEntries = true),
         CacheEvict("userCache.byId", key = "#id_user"),
+        CacheEvict("carCache", allEntries = true),
+        CacheEvict("carCache.byId", key = "#car.id_car"),
         CacheEvict("carCache.freeCars", allEntries = true)])
     fun buyCar(id_user: Long, id_car: Long) {
         if(isFree(id_car)) throw IllegalArgumentException("Car with id=$id_car already belongs somebody.")
         userMapper.buyCar(id_user, id_car)
     }
 
-    private fun isFree(id_car: Long): Boolean = userMapper.isCarFree(id_car)
-
     @Caching(evict = [
         CacheEvict("userCache", allEntries = true),
         CacheEvict("userCache.byId", key = "#id_user"),
+        CacheEvict("carCache", allEntries = true),
+        CacheEvict("carCache.byId", key = "#car.id_car"),
         CacheEvict("carCache.freeCars", allEntries = true)])
     fun sellCar(id_user: Long, id_car: Long) {
         if(!inProperty(id_user, id_car)) throw IllegalArgumentException("User with id=$id_user don't own car with id=$id_car.")
         userMapper.sellCar(id_user, id_car)
     }
 
-    private fun inProperty(id_user: Long, id_car: Long): Boolean = userMapper.inProperty(id_user, id_car)
-
     fun transferCar(transferCar: TransferCar) {
         sellCar(transferCar.id_seller, transferCar.id_car)
         buyCar(transferCar.id_buyer, transferCar.id_car)
     }
+
+    private fun alreadyExists(user: User): Boolean = userMapper.alreadyExists(user.email!!)
+
+    private fun isFree(id_car: Long): Boolean = userMapper.isCarFree(id_car)
+
+    private fun inProperty(id_user: Long, id_car: Long): Boolean = userMapper.inProperty(id_user, id_car)
 
 }
