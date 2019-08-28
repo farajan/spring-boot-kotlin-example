@@ -16,10 +16,7 @@ import spring.boot.kotlin.example.payload.TransferCar
 class UserService(@Autowired private val userMapper: UserMapper) {
 
     @Cacheable("userCache")
-    fun getAll(): List<User> {
-        print("finding...")
-        return userMapper.findAll()
-    }
+    fun getAll(): List<User> = userMapper.findAll()
 
     @Cacheable("userCache.byId", key = "#id")
     fun getById(id: Long): User = userMapper.findById(id) ?: throw IllegalArgumentException("User with id_user=$id doesn't exists.")

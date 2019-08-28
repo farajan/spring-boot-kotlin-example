@@ -34,7 +34,7 @@
         LEFT JOIN users users on users_car.id_user = users.id_user
     </select>
 
-    <select id="findById" parameterType="java.lang.Long" resultMap="Car">
+    <select id="findById" parameterType="java.lang.Long" resultMap="carResult">
         SELECT
             users.id_user, first_name, last_name, email, password, birthday, photo,
             car.id_car, brand, model, color, horsepower, price, mileage, picture
