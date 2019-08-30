@@ -25,7 +25,6 @@
         <result property="picture" column="picture"/>
     </resultMap>
 
-
     <select id="findAll" resultMap="userResult">
         SELECT
             users.id_user, first_name, last_name, email, password, birthday, photo,
@@ -43,6 +42,10 @@
         LEFT JOIN users_car ON users.id_user = users_car.id_user
         LEFT JOIN car ON users_car.id_car = car.id_car
         WHERE users.id_user = #{id}
+    </select>
+
+    <select id="countCars" resultType="java.lang.Long">
+        SELECT count(*) FROM car LEFT JOIN users_car on car.id_car = users_car.id_car WHERE users_car.id_user = #{id_user}
     </select>
 
     <insert id="create" parameterType="User" useGeneratedKeys="true" keyProperty="id_user" keyColumn="id_user">

@@ -41,7 +41,7 @@
         FROM car
         LEFT JOIN users_car on car.id_car = users_car.id_car
         LEFT JOIN users users on users_car.id_user = users.id_user
-        WHERE id_car = #{id}
+        WHERE car.id_car = #{id}
     </select>
 
     <select id="findFreeCars" resultType="Car">

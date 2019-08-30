@@ -21,6 +21,8 @@ class UserService(@Autowired private val userMapper: UserMapper) {
     @Cacheable("userCache.byId", key = "#id")
     fun getById(id: Long): User = userMapper.findById(id) ?: throw IllegalArgumentException("User with id_user=$id doesn't exists.")
 
+    fun countCars(id: Long): Long = userMapper.countCars(id)
+
     @CacheEvict("userCache", allEntries = true)
     fun create(user: User): User {
         if(user.firstName == null

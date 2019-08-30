@@ -16,6 +16,9 @@ class UserController(@Autowired private val userService: UserService) {
     @GetMapping("/getById/{id}")
     fun getById(@PathVariable id: Long): User = userService.getById(id)
 
+    @GetMapping("/countCars/{id}")
+    fun getUserCars(@PathVariable id: Long): Long = userService.countCars(id)
+
     @PostMapping("/create")
     fun create(@RequestBody user: User): User = userService.create(user)
 

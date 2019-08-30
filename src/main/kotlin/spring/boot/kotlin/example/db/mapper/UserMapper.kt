@@ -12,6 +12,8 @@ interface UserMapper {
 
     fun findById(id: Long): User
 
+    fun countCars(id: Long): Long
+
     fun create(user: User)
 
     fun alreadyExists(email: String): Boolean
