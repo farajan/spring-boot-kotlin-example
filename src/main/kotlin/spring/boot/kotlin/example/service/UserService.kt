@@ -29,7 +29,7 @@ class UserService(@Autowired private val userMapper: UserMapper) {
                 || user.lastName == null
                 || user.email == null
                 || user.password == null
-        ) throw IllegalArgumentException("Some of following mandatory parameters are null, see: " +
+        ) throw NullPointerException("Some of following mandatory parameters are null, see: " +
                 "firstName=${user.firstName}, " +
                 "lastName=${user.lastName}, " +
                 "email=${user.email}, " +
@@ -47,7 +47,7 @@ class UserService(@Autowired private val userMapper: UserMapper) {
         CacheEvict("carCache.byId", key = "#car.id_car"),
         CacheEvict("carCache.freeCars", allEntries = true)])
     fun update(user: User): User {
-        if(user.id_user == null) throw IllegalArgumentException("id_user can't be null.")
+        if(user.id_user == null) throw NullPointerException("id_user can't be null.")
         userMapper.update(user)
         return getById(user.id_user)
     }

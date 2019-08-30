@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse
 class ExceptionController {
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(value = [IllegalArgumentException::class])
+    @ExceptionHandler(value = [IllegalArgumentException::class, IllegalArgumentException::class])
     fun handleConflict(e: Exception, response: HttpServletResponse) =
             response.sendError(HttpStatus.CONFLICT.value(), e.message)
 

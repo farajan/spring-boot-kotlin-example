@@ -32,7 +32,7 @@ class CarService(@Autowired private val carMapper: CarMapper) {
                 || car.horsepower == null
                 || car.price == null
                 || car.mileage == null
-        ) throw IllegalArgumentException("Some of following mandatory parameters are null, see: " +
+        ) throw NullPointerException("Some of following mandatory parameters are null, see: " +
                 "brand=${car.brand}, " +
                 "model=${car.model}, " +
                 "color=${car.color}, " +
@@ -50,7 +50,7 @@ class CarService(@Autowired private val carMapper: CarMapper) {
         CacheEvict("userCache", allEntries = true),
         CacheEvict("userCache.byId", allEntries = true)])
     fun update(car: Car): Car {
-        if(car.id_car == null) throw IllegalArgumentException("id_car can't be null.")
+        if(car.id_car == null) throw NullPointerException("id_car can't be null.")
         carMapper.update(car)
         return getById(car.id_car)
     }
