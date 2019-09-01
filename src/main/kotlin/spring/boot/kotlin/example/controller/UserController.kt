@@ -19,9 +19,6 @@ class UserController(@Autowired private val userService: UserService) {
     @GetMapping("/countCars/{id}")
     fun getUserCars(@PathVariable id: Long): Long = userService.countCars(id)
 
-    @PostMapping("/create")
-    fun create(@RequestBody user: User): User = userService.create(user)
-
     @PostMapping("/update")
     fun update(@RequestBody user: User): User = userService.update(user)
 

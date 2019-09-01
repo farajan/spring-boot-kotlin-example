@@ -11,12 +11,14 @@
     </settings>
 
     <typeAliases>
+        <typeAlias alias="SecureUser" type="spring.boot.kotlin.example.security.db.entity.SecureUser"/>
         <package name="spring.boot.kotlin.example.db.entity"/>
     </typeAliases>
 
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/CarMapper.xml"/>
+        <mapper resource="mapper/AuthMapper.xml"/>
     </mappers>
 
 

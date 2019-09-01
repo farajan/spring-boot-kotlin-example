@@ -23,23 +23,6 @@ class UserService(@Autowired private val userMapper: UserMapper) {
 
     fun countCars(id: Long): Long = userMapper.countCars(id)
 
-    @CacheEvict("userCache", allEntries = true)
-    fun create(user: User): User {
-        if(user.firstName == null
-                || user.lastName == null
-                || user.email == null
-                || user.password == null
-        ) throw NullPointerException("Some of following mandatory parameters are null, see: " +
-                "firstName=${user.firstName}, " +
-                "lastName=${user.lastName}, " +
-                "email=${user.email}, " +
-                "password=${user.password}, " +
-                "birthday=${user.birthday}")
-        if(alreadyExists(user)) throw IllegalArgumentException("User with this email already exists.")
-        userMapper.create(user)
-        return user
-    }
-
     @Caching(evict = [
         CacheEvict("userCache", allEntries = true),
         CacheEvict("userCache.byId", key = "#user.id_user"),
@@ -89,8 +72,6 @@ class UserService(@Autowired private val userMapper: UserMapper) {
         sellCar(transferCar.id_seller, transferCar.id_car)
         buyCar(transferCar.id_buyer, transferCar.id_car)
     }
-
-    private fun alreadyExists(user: User): Boolean = userMapper.alreadyExists(user.email!!)
 
     private fun isFree(id_car: Long): Boolean = userMapper.isCarFree(id_car)
 

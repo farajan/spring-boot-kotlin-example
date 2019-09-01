@@ -56,13 +56,6 @@ class UserServiceTests {
     }
 
     @Test
-    fun create_shouldPass() {
-        val user = User(1L, "firstName", "lastName", "email", "password", LocalDateTime.now())
-        userService.create(user)
-        verify(userMapper, times(1)).create(user)
-    }
-
-    @Test
     fun update_shouldPass() {
         val user = User(1L, "firstName", "lastName", "email", "password", LocalDateTime.now())
         `when`(userMapper.findById(1L)).thenReturn(user)

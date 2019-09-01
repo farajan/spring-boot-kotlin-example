@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="spring.boot.kotlin.example.security.db.mapper.AuthMapper">
+
+    <select id="findByEmail" parameterType="java.lang.String" resultType="SecureUser">
+        SELECT
+            id_user, first_name as firstName, last_name as lastName, email, password as passwd, birthday, photo
+        FROM users WHERE email = #{email}
+    </select>
+
+    <insert id="register" parameterType="SecureUser" useGeneratedKeys="true" keyProperty="id_user" keyColumn="id_user">
+        INSERT INTO users (first_name, last_name, email, password, birthday, photo) VALUES (#{firstName}, #{lastName}, #{email}, #{passwd}, #{birthday}, #{photo})
+    </insert>
+
+    <select id="alreadyExists" parameterType="java.lang.String" resultType="java.lang.Boolean">
+        SELECT count(*) FROM users WHERE email = #{email}
+    </select>
+
+</mapper>
