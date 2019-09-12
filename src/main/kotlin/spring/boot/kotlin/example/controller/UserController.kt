@@ -5,14 +5,16 @@ import org.springframework.web.bind.annotation.*
 import spring.boot.kotlin.example.db.entity.Car
 import spring.boot.kotlin.example.db.entity.User
 import spring.boot.kotlin.example.dto.TransferCarDto
+import spring.boot.kotlin.example.dto.UserDto
 import spring.boot.kotlin.example.service.UserService
+import java.util.stream.Collectors
 
 @RestController
 @RequestMapping("/user")
 class UserController(@Autowired private val userService: UserService) {
 
     @GetMapping("/getAll")
-    fun getAll(): List<User> = userService.getAll()
+    fun getAll(): List<UserDto> = userService.getAll().stream().map(UserDto.Companion::create).collect(Collectors.toList())
 
     @GetMapping("/getById/{id}")
     fun getById(@PathVariable id: Long): User = userService.getById(id)
