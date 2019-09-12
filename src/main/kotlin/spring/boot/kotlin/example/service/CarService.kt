@@ -10,21 +10,14 @@ import spring.boot.kotlin.example.db.entity.Car
 import spring.boot.kotlin.example.db.mapper.CarMapper
 
 @Service
-@Transactional
 class CarService(@Autowired private val carMapper: CarMapper) {
 
-    @Cacheable("carCache")
     fun getAll(): List<Car> = carMapper.findAll()
 
-    @Cacheable("carCache.byId", key = "#id")
     fun getById(id: Long): Car = carMapper.findById(id) ?: throw IllegalArgumentException("Car with id_car=$id doesn't exists.")
 
-    @Cacheable("carCache.freeCars")
     fun getFreeCars(): List<Car> = carMapper.findFreeCars()
 
-    @Caching(evict = [
-        CacheEvict("carCache", allEntries = true),
-        CacheEvict("carCache.freeCars", allEntries = true)])
     fun create(car: Car): Car {
         if(car.brand == null
                 || car.model == null
@@ -43,10 +36,8 @@ class CarService(@Autowired private val carMapper: CarMapper) {
         return car
     }
 
+    @Transactional
     @Caching(evict = [
-        CacheEvict("carCache", allEntries = true),
-        CacheEvict("carCache.byId", key = "#car.id_car"),
-        CacheEvict("carCache.freeCars", allEntries = true),
         CacheEvict("userCache", allEntries = true),
         CacheEvict("userCache.byId", allEntries = true)])
     fun update(car: Car): Car {
@@ -55,10 +46,8 @@ class CarService(@Autowired private val carMapper: CarMapper) {
         return getById(car.id_car)
     }
 
+    @Transactional
     @Caching(evict = [
-        CacheEvict("carCache", allEntries = true),
-        CacheEvict("carCache.byId", key = "#car.id_car"),
-        CacheEvict("carCache.freeCars", allEntries = true),
         CacheEvict("userCache",allEntries = true),
         CacheEvict("userCache.byId", allEntries = true)])
     fun delete(id: Long) {

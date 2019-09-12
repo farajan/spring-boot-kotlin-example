@@ -86,7 +86,7 @@
         SELECT count(*) FROM users_car WHERE id_user = #{id_user} AND id_car = #{id_car}
     </select>
 
-    <select id="isCarFree" parameterType="java.lang.Long" resultType="java.lang.Boolean">
+    <select id="isCarTaken" parameterType="java.lang.Long" resultType="java.lang.Boolean">
         SELECT count(*) FROM users_car WHERE id_car = #{id_car}
     </select>
 

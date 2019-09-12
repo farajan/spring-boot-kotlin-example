@@ -14,17 +14,13 @@ interface UserMapper {
 
     fun countCars(id: Long): Long
 
-    fun create(user: User)
-
-    fun alreadyExists(email: String): Boolean
-
     fun update(user: User)
 
     fun delete(id: Long)
 
     fun buyCar(id_user: Long, id_car: Long)
 
-    fun isCarFree(id_car: Long): Boolean
+    fun isCarTaken(id_car: Long): Boolean
 
     fun sellCar(id_user: Long, id_car: Long)
 

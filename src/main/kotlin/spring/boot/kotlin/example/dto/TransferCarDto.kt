@@ -1,6 +1,6 @@
-package spring.boot.kotlin.example.payload
+package spring.boot.kotlin.example.dto
 
-data class TransferCar(
+data class TransferCarDto(
 
         val id_seller: Long,
 

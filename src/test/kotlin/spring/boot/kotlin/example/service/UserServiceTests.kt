@@ -56,6 +56,16 @@ class UserServiceTests {
     }
 
     @Test
+    fun countCars_shouldPass() {
+        `when`(userMapper.countCars(1L)).thenReturn(5)
+
+        val carCount: Int = userService.countCars(1L).toInt()
+
+        verify(userMapper, times(1)).countCars(1L)
+        assertThat("Size is not equal to 5",  carCount, `is`(5))
+    }
+
+    @Test
     fun update_shouldPass() {
         val user = User(1L, "firstName", "lastName", "email", "password", LocalDateTime.now())
         `when`(userMapper.findById(1L)).thenReturn(user)

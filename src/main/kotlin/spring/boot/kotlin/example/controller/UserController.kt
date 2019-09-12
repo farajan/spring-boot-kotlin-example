@@ -2,8 +2,9 @@ package spring.boot.kotlin.example.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import spring.boot.kotlin.example.db.entity.Car
 import spring.boot.kotlin.example.db.entity.User
-import spring.boot.kotlin.example.payload.TransferCar
+import spring.boot.kotlin.example.dto.TransferCarDto
 import spring.boot.kotlin.example.service.UserService
 
 @RestController
@@ -26,12 +27,12 @@ class UserController(@Autowired private val userService: UserService) {
     fun delete(@PathVariable id: Long) = userService.delete(id)
 
     @PostMapping("/{id_user}/buyCar/{id_car}")
-    fun buyCar(@PathVariable id_user: Long, @PathVariable id_car: Long) = userService.buyCar(id_user, id_car)
+    fun buyCar(@PathVariable id_user: Long, @PathVariable id_car: Long): Car = userService.buyCar(id_user, id_car)
 
     @PostMapping("/{id_user}/sellCar/{id_car}")
     fun sellCar(@PathVariable id_user: Long, @PathVariable id_car: Long) = userService.sellCar(id_user, id_car)
 
     @PostMapping("/transferCar")
-    fun transferCar(@RequestBody transferCar: TransferCar) = userService.transferCar(transferCar)
+    fun transferCar(@RequestBody transferCarDto: TransferCarDto) = userService.transferCar(transferCarDto)
 
 }

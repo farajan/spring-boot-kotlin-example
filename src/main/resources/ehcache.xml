@@ -28,39 +28,4 @@
         </expiry>
     </cache>
 
-    <cache alias="carCache">
-        <value-type>spring.boot.kotlin.example.db.entity.Car</value-type>
-        <resources>
-            <heap unit="entries">2</heap>
-            <offheap unit="MB">10</offheap>
-        </resources>
-        <expiry>
-            <ttl unit="seconds">120</ttl>
-        </expiry>
-    </cache>
-
-    <cache alias="carCache.byId">
-        <key-type>java.lang.Long</key-type>
-        <value-type>spring.boot.kotlin.example.db.entity.Car</value-type>
-        <resources>
-            <heap unit="entries">2</heap>
-            <offheap unit="MB">10</offheap>
-        </resources>
-        <expiry>
-            <ttl unit="seconds">120</ttl>
-        </expiry>
-    </cache>
-
-    <cache alias="carCache.freeCars">
-        <key-type>java.lang.Long</key-type>
-        <value-type>spring.boot.kotlin.example.db.entity.Car</value-type>
-        <resources>
-            <heap unit="entries">2</heap>
-            <offheap unit="MB">10</offheap>
-        </resources>
-        <expiry>
-            <ttl unit="seconds">120</ttl>
-        </expiry>
-    </cache>
-
 </config>
