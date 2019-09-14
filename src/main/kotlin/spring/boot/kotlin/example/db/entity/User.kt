@@ -16,6 +16,10 @@ data class User (
 
         val birthday: LocalDateTime? = null,
 
+        val sex: String? = null,
+
+        val phone: String? = null,
+
         val photo: String? = null,
 
         val cars: List<Car> = mutableListOf()

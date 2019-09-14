@@ -8,6 +8,8 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     birthday TIMESTAMP,
+    sex VARCHAR(6),
+    phone varchar(16),
     photo varchar(255) UNIQUE
 );
 CREATE TABLE car (

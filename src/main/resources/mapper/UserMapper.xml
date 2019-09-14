@@ -10,6 +10,8 @@
         <result property="email" column="email"/>
         <result property="password" column="password"/>
         <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
         <result property="photo" column="photo"/>
         <association property="cars" javaType="Car" resultMap="carResult"/>
     </resultMap>
@@ -27,7 +29,7 @@
 
     <select id="findAll" resultMap="userResult">
         SELECT
-            users.id_user, first_name, last_name, email, password, birthday, photo,
+            users.id_user, first_name, last_name, email, password, birthday, sex, phone, photo,
             car.id_car, brand, model, color, horsepower, price, mileage, picture
         FROM users
         LEFT JOIN users_car ON users.id_user = users_car.id_user
@@ -36,7 +38,7 @@
 
     <select id="findById" parameterType="java.lang.Long" resultMap="userResult">
         SELECT
-            users.id_user, first_name, last_name, email, password, birthday, photo,
+            users.id_user, first_name, last_name, email, password, birthday, sex, phone, photo,
             car.id_car, brand, model, color, horsepower, price, mileage, picture
         FROM users
         LEFT JOIN users_car ON users.id_user = users_car.id_user
@@ -49,7 +51,7 @@
     </select>
 
     <insert id="create" parameterType="User" useGeneratedKeys="true" keyProperty="id_user" keyColumn="id_user">
-        INSERT INTO users (first_name, last_name, email, password, birthday, photo) VALUES (#{firstName}, #{lastName}, #{email}, #{password}, #{birthday}, #{photo})
+        INSERT INTO users (first_name, last_name, email, password, birthday, sex, phone, photo) VALUES (#{firstName}, #{lastName}, #{email}, #{password}, #{birthday}, #{sex}, #{phone} #{photo})
     </insert>
 
     <update id="update" parameterType="User">
@@ -60,6 +62,8 @@
             <if test="email != null">email=#{email},</if>
             <if test="password != null">password=#{password},</if>
             <if test="birthday != null">birthday=#{birthday},</if>
+            <if test="sex != null">sex=#{sex},</if>
+            <if test="phone != null">phone=#{phone},</if>
             <if test="photo != null">photo=#{photo}</if>
         </set>
         WHERE id_user = #{id_user}

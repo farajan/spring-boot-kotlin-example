@@ -8,6 +8,9 @@ import spring.boot.kotlin.example.dto.TransferCarDto
 import spring.boot.kotlin.example.dto.UserDto
 import spring.boot.kotlin.example.service.UserService
 import java.util.stream.Collectors
+import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.PathVariable
 
 @RestController
 @RequestMapping("/user")
@@ -17,7 +20,7 @@ class UserController(@Autowired private val userService: UserService) {
     fun getAll(): List<UserDto> = userService.getAll().stream().map(UserDto.Companion::create).collect(Collectors.toList())
 
     @GetMapping("/getById/{id}")
-    fun getById(@PathVariable id: Long): User = userService.getById(id)
+    fun getById(@PathVariable id: Long): UserDto = UserDto.create(userService.getById(id))
 
     @GetMapping("/countCars/{id}")
     fun getUserCars(@PathVariable id: Long): Long = userService.countCars(id)
@@ -36,5 +39,10 @@ class UserController(@Autowired private val userService: UserService) {
 
     @PostMapping("/transferCar")
     fun transferCar(@RequestBody transferCarDto: TransferCarDto) = userService.transferCar(transferCarDto)
+
+    @PostMapping("/upload")
+    fun upload(@RequestBody file: MultipartFile) {
+        println(file.originalFilename)
+    }
 
 }

@@ -15,6 +15,10 @@ data class UserDto(
 
         val birthday: LocalDateTime?,
 
+        val sex: String?,
+
+        val phone: String?,
+
         val photo: String?,
 
         val cars: List<Car> = mutableListOf()
@@ -27,6 +31,8 @@ data class UserDto(
                 lastName = user.lastName!!,
                 email = user.email!!,
                 birthday = user.birthday,
+                sex = user.sex,
+                phone = user.phone,
                 photo = user.photo,
                 cars = user.cars
         )
