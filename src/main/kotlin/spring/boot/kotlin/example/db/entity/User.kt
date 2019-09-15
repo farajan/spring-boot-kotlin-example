@@ -1,5 +1,6 @@
 package spring.boot.kotlin.example.db.entity
 
+import spring.boot.kotlin.example.db.enums.Sex
 import java.time.LocalDateTime
 
 data class User (
@@ -16,7 +17,7 @@ data class User (
 
         val birthday: LocalDateTime? = null,
 
-        val sex: String? = null,
+        val sex: Sex? = null,
 
         val phone: String? = null,
 

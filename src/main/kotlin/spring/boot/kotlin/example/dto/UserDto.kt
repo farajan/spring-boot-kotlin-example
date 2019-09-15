@@ -2,6 +2,7 @@ package spring.boot.kotlin.example.dto
 
 import spring.boot.kotlin.example.db.entity.Car
 import spring.boot.kotlin.example.db.entity.User
+import spring.boot.kotlin.example.db.enums.Sex
 import java.time.LocalDateTime
 
 data class UserDto(
@@ -15,7 +16,7 @@ data class UserDto(
 
         val birthday: LocalDateTime?,
 
-        val sex: String?,
+        val sex: Sex?,
 
         val phone: String?,
 
