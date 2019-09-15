@@ -8,8 +8,6 @@ import spring.boot.kotlin.example.dto.TransferCarDto
 import spring.boot.kotlin.example.dto.UserDto
 import spring.boot.kotlin.example.service.UserService
 import java.util.stream.Collectors
-import org.springframework.web.multipart.MultipartFile
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.PathVariable
 
 @RestController
@@ -39,10 +37,5 @@ class UserController(@Autowired private val userService: UserService) {
 
     @PostMapping("/transferCar")
     fun transferCar(@RequestBody transferCarDto: TransferCarDto) = userService.transferCar(transferCarDto)
-
-    @PostMapping("/upload")
-    fun upload(@RequestBody file: MultipartFile) {
-        println(file.originalFilename)
-    }
 
 }
